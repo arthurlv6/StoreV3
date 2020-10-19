@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "hostingPlanName": {
+      "value": "st2-dev-plan"
+    },
+    "administratorLogin": {
+      "value": "serverAdmin"
+    },
+    "administratorLoginPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/42077931-c786-4eb5-8f82-0a128ea4de91/resourceGroups/STORE-RG-DEV/providers/Microsoft.KeyVault/vaults/ST-DEV-KV"
+        },
+        "secretName": "dev-db-password"
+      }
+    },
+    "databaseName": {
+      "value": "st2-dev-database"
+    },
+    "webSiteName": {
+      "value": "st2-dev-api"
+    },
+    "sqlserverName": {
+      "value": "st2devsqlserver"
+    },
+    "skuName": {
+      "value": "S1"
+    }
+  }
+}
