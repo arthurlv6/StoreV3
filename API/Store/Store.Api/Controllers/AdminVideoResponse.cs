@@ -8,11 +8,13 @@ using System.Text.Json;
 using System.Text;
 using System.Collections.Generic;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Store.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AdminVideoResponse : JPushController
     {
         public AdminVideoResponse(UserManager<ApplicationUser> userManager) :base(userManager)
@@ -35,7 +37,7 @@ namespace Store.Api.Controllers
                         if (response.IsSuccessStatusCode)
                             return Ok();
                         else
-                            return BadRequest("JPush return failure.");
+                            return BadRequest("JPush return failure. detail:" + await response.Content.ReadAsStringAsync());
                     }
                 }
             }
@@ -48,6 +50,8 @@ namespace Store.Api.Controllers
         private async Task<StringContent> SetupJPushModel(string userEmail, bool accepted = false)
         {
             var user = await _userManager.FindByEmailAsync(userEmail);
+            if (string.IsNullOrEmpty(user.JPushId))
+                user.JPushId = "170976fa8a3330841b0";
             var jpush = new JPushModel() { audience=new Audience() { tag=new List<string>()}, message=new Message()};
             return jpush.Action(d => d.audience.tag.Add(user.JPushId))
                 .Action(d => d.platform = "all")

@@ -20,8 +20,8 @@ namespace Store.Api.Controllers
         public JPushController(UserManager<ApplicationUser> userManager)
         {
             JPushEndPoint = "https://api.jpush.cn/v3/push";
-            AppKey = "";
-            MasterSecret = "";
+            AppKey = "926991bba6a1b1124e525040";
+            MasterSecret = "931d70cc454df42bba989762";
             _userManager = userManager;
         }
         protected string GetToken()
@@ -32,7 +32,7 @@ namespace Store.Api.Controllers
         protected HttpClient AddHeader(HttpClient client)
         {
             if (!client.DefaultRequestHeaders.Contains("Authorization"))
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {GetToken()}");
+                client.DefaultRequestHeaders.Add("Authorization", $"Basic {GetToken()}");
             else
             {
 
